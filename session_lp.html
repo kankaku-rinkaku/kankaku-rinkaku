@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>感覚翻訳セッション | あずさ</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF8F4;
+    --bg2: #F4F0E8;
+    --beige-dark: #B8967A;
+    --beige-mid: #D4B896;
+    --beige-light: #EDE3D6;
+    --green: #7A9478;
+    --green-light: #A8BC9E;
+    --green-pale: #E8EFE6;
+    --text: #3A3128;
+    --text-mid: #6B5D52;
+    --text-light: #9A8878;
+    --serif: 'Shippori Mincho', serif;
+    --sans: 'Zen Kaku Gothic New', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px 60px;
+    position: relative;
+    text-align: center;
+    background: var(--bg);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 30%, rgba(168,188,158,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 80% 70%, rgba(184,150,122,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 8vw, 64px);
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--text);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+    letter-spacing: 0.05em;
+  }
+  .hero-catch {
+    font-family: var(--serif);
+    font-size: clamp(14px, 2.5vw, 18px);
+    line-height: 2.2;
+    color: var(--text-mid);
+    max-width: 500px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-catch em {
+    font-style: normal;
+    color: var(--beige-dark);
+    border-bottom: 1px solid var(--beige-mid);
+  }
+  .hero-cta {
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-primary {
+    display: inline-block;
+    padding: 18px 48px;
+    background: var(--green);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .btn-primary:hover { background: #6A8468; transform: translateY(-2px); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s 1.2s forwards;
+  }
+  .hero-scroll span { font-size: 10px; letter-spacing: 0.3em; color: var(--text-light); }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--beige-mid), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* ── COMMON ── */
+  .divider { width: 48px; height: 1px; background: var(--beige-mid); margin: 0 auto; }
+  .section { max-width: 720px; margin: 0 auto; padding: 96px 24px; }
+  .section-label {
+    font-size: 10px; letter-spacing: 0.35em; color: var(--green);
+    text-transform: uppercase; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--beige-light); }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(22px, 4vw, 30px);
+    font-weight: 500; margin-bottom: 28px;
+    color: var(--text); line-height: 1.7;
+  }
+  .section-body { font-size: 15px; color: var(--text-mid); line-height: 2.1; }
+
+  /* ── FOR WHO ── */
+  .for-who-list { list-style: none; margin-top: 32px; display: flex; flex-direction: column; gap: 14px; }
+  .for-who-list li {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 18px 22px;
+    background: var(--green-pale);
+    border-left: 2px solid var(--green-light);
+    border-radius: 0 2px 2px 0;
+    font-size: 15px; color: var(--text-mid); line-height: 1.8;
+  }
+  .for-who-list li::before { content: '✦'; color: var(--green); font-size: 11px; margin-top: 5px; flex-shrink: 0; }
+
+  /* ── SESSION CONTENT ── */
+  .session-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; margin-top: 28px; }
+  .session-card {
+    padding: 26px 22px; background: #fff;
+    border: 1px solid var(--beige-light); border-radius: 2px; text-align: center;
+  }
+  .session-card .s-icon { font-size: 22px; margin-bottom: 10px; }
+  .session-card .s-title { font-family: var(--serif); font-size: 15px; color: var(--text); margin-bottom: 8px; }
+  .session-card .s-desc { font-size: 12px; color: var(--text-light); line-height: 1.8; }
+  .session-note {
+    margin-top: 20px; padding: 18px 24px;
+    background: var(--beige-light); border-radius: 2px;
+    font-size: 14px; color: var(--text-mid); line-height: 1.9;
+    text-align: center; font-family: var(--serif);
+  }
+
+  /* ── FIRST SESSION ── */
+  .first-box {
+    margin-top: 32px;
+    border: 1px solid var(--green-light);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .first-header {
+    background: var(--green);
+    color: #fff;
+    padding: 20px 32px;
+    text-align: center;
+  }
+  .first-header .badge {
+    display: inline-block;
+    padding: 3px 14px;
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 999px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    margin-bottom: 10px;
+  }
+  .first-header .f-name { font-family: var(--serif); font-size: 20px; }
+  .first-body { padding: 32px; background: #fff; }
+  .first-price {
+    text-align: center; margin-bottom: 24px;
+    padding-bottom: 24px; border-bottom: 1px solid var(--beige-light);
+  }
+  .first-price .amount { font-family: var(--serif); font-size: 44px; color: var(--text); }
+  .first-price .tax { font-size: 13px; color: var(--text-light); }
+  .first-price .time {
+    margin-top: 8px; font-size: 13px; color: var(--text-light); letter-spacing: 0.05em;
+  }
+  .first-includes { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .first-includes li {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 14px; color: var(--text-mid);
+  }
+  .first-includes li::before {
+    content: '';
+    width: 18px; height: 18px; flex-shrink: 0;
+    background: var(--green);
+    border-radius: 50%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-size: 11px; background-repeat: no-repeat; background-position: center;
+  }
+  .first-note { font-size: 12px; color: var(--text-light); line-height: 1.9; text-align: center; }
+
+  /* ── NEXT STEPS ── */
+  .next-label {
+    text-align: center;
+    margin: 64px 0 32px;
+    position: relative;
+  }
+  .next-label::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 1px; background: var(--beige-light);
+    z-index: 0;
+  }
+  .next-label span {
+    position: relative; z-index: 1;
+    background: var(--bg);
+    padding: 0 20px;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--text-light);
+    text-transform: uppercase;
+  }
+
+  .next-intro {
+    text-align: center;
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--text-mid);
+    line-height: 2;
+    margin-bottom: 40px;
+  }
+
+  .next-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .next-card {
+    padding: 28px 24px;
+    background: #fff;
+    border: 1px solid var(--beige-light);
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .next-card:hover { border-color: var(--beige-mid); transform: translateY(-2px); }
+  .next-card .n-tag {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 4px;
+  }
+  .next-card .n-title { font-family: var(--serif); font-size: 16px; color: var(--text); line-height: 1.5; }
+  .next-card .n-price { font-size: 18px; color: var(--beige-dark); font-family: var(--serif); }
+  .next-card .n-price span { font-size: 12px; color: var(--text-light); }
+  .next-card .n-desc { font-size: 12px; color: var(--text-light); line-height: 1.8; margin-top: 4px; }
+
+  /* ── PROFILE ── */
+  .profile-wrap { display: flex; gap: 36px; align-items: flex-start; margin-top: 8px; }
+  .profile-initial {
+    width: 90px; height: 90px; background: var(--beige-light); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 28px; color: var(--beige-dark); flex-shrink: 0;
+  }
+  .profile-name { font-family: var(--serif); font-size: 20px; color: var(--text); margin-bottom: 4px; }
+  .profile-name-en { font-size: 11px; letter-spacing: 0.2em; color: var(--text-light); margin-bottom: 14px; }
+  .profile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .profile-tag {
+    padding: 3px 10px; background: var(--green-pale); border-radius: 999px;
+    font-size: 11px; color: var(--green);
+  }
+  @media (max-width: 560px) {
+    .profile-wrap { flex-direction: column; align-items: center; text-align: center; }
+    .profile-tags { justify-content: center; }
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--bg2); padding: 96px 24px; text-align: center;
+  }
+  .cta-section .cta-title {
+    font-family: var(--serif); font-size: clamp(20px, 4vw, 28px);
+    color: var(--text); line-height: 1.9; margin-bottom: 16px;
+  }
+  .cta-section .cta-sub {
+    font-size: 14px; color: var(--text-light); margin-bottom: 40px; line-height: 2;
+  }
+
+  footer {
+    padding: 40px 24px; text-align: center;
+    border-top: 1px solid var(--beige-light);
+    font-size: 12px; color: var(--text-light); letter-spacing: 0.1em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; } 50% { opacity: 1; }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Kankaku Translation Session</div>
+  <h1 class="hero-title">あなたの感覚を、<br>一緒に言葉にする。</h1>
+  <p class="hero-catch">
+    「なんとなく…」でも大丈夫。<br>
+    うまく説明できなくても、<em>そのまま持ってきて</em>ください。<br>
+    受け取るのが、わたしの仕事です。
+  </p>
+  <div class="hero-cta">
+    <a href="#apply" class="btn-primary">まずは体験セッションへ</a>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- FOR WHO -->
+<div class="section reveal">
+  <div class="section-label">For · こんな人へ</div>
+  <h2 class="section-title">ひとりで抱えなくて<br>いいんです。</h2>
+  <ul class="for-who-list">
+    <li>インスタで発信してみたいけど、何を投稿すればいいかわからない</li>
+    <li>発信しているけど、これでいいのか迷っている</li>
+    <li>「こうすべき」と言われるコンサルが苦手で、自分らしくやりたい</li>
+    <li>感覚的に動くタイプで、理論より直感を大切にしたい</li>
+    <li>自分の世界観をちゃんと形にしてみたい</li>
+  </ul>
+</div>
+
+<div class="divider"></div>
+
+<!-- SESSION CONTENT -->
+<div class="section reveal">
+  <div class="section-label">Content · セッション内容</div>
+  <h2 class="section-title">あなたに必要なところから<br>始めます。</h2>
+  <p class="section-body">セッションのテーマは、あなたが今一番必要なものを一緒に選びます。</p>
+  <div class="session-grid">
+    <div class="session-card">
+      <div class="s-icon">🌱</div>
+      <div class="s-title">らしさの言語化</div>
+      <div class="s-desc">あなたならではの感覚や価値観を言葉にする</div>
+    </div>
+    <div class="session-card">
+      <div class="s-icon">🧭</div>
+      <div class="s-title">発信の方向性</div>
+      <div class="s-desc">何を・誰に・どんなトーンで伝えるかを整理する</div>
+    </div>
+    <div class="session-card">
+      <div class="s-icon">🎨</div>
+      <div class="s-title">世界観の整理</div>
+      <div class="s-desc">ビジュアルや言葉でブランドの輪郭を描く</div>
+    </div>
+  </div>
+  <div class="session-note">
+    どれか一つでも、全部でも。希望に合わせて進めます。
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- FIRST SESSION -->
+<div class="section reveal" id="apply">
+  <div class="section-label">First · まずは体験から</div>
+  <h2 class="section-title">気軽に、一度<br>話してみませんか。</h2>
+  <p class="section-body">
+    初めての方は、まず体験セッションから。<br>
+    60分、あなたのことをじっくり受け取ります。
+  </p>
+
+  <div class="first-box">
+    <div class="first-header">
+      <div class="badge">初回限定</div>
+      <div class="f-name">体験セッション</div>
+    </div>
+    <div class="first-body">
+      <div class="first-price">
+        <div class="amount">¥16,500<span class="tax">（税込）</span></div>
+        <div class="time">60分 / オンライン（Zoom）</div>
+      </div>
+      <ul class="first-includes">
+        <li>感覚翻訳セッション 60分</li>
+        <li>セッション後のまとめメモお渡し</li>
+      </ul>
+      <div class="first-note">
+        お申し込みはInstagramのDMから受け付けています。
+      </div>
+    </div>
+  </div>
+
+  <!-- NEXT STEPS -->
+  <div class="next-label"><span>Next Step · 次のステップ</span></div>
+  <p class="next-intro">
+    体験セッションのあと、続けたい方へ。<br>
+    あなたのペースに合わせて選んでください。
+  </p>
+
+  <div class="next-grid">
+    <div class="next-card">
+      <div class="n-tag">Single</div>
+      <div class="n-title">単発セッション</div>
+      <div class="n-price">¥33,000<span>（税込）</span></div>
+      <div class="n-desc">120分＋チャットサポート1ヶ月。じっくり深掘りしたい方へ。</div>
+    </div>
+    <div class="next-card">
+      <div class="n-tag">Package</div>
+      <div class="n-title">3ヶ月パッケージ</div>
+      <div class="n-price">¥89,000<span>（税込）</span></div>
+      <div class="n-desc">月1セッション×3回。継続的に発信を育てたい方へ。</div>
+    </div>
+    <div class="next-card">
+      <div class="n-tag">Community</div>
+      <div class="n-title">感覚と輪郭</div>
+      <div class="n-price">¥60,000<span>（税込）</span></div>
+      <div class="n-desc">セッション＋コミュニティ永久入会。居場所ごと欲しい方へ。</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PROFILE -->
+<div class="section reveal">
+  <div class="section-label">Profile · わたしについて</div>
+  <div class="profile-wrap">
+    <div class="profile-initial">あ</div>
+    <div>
+      <div class="profile-name">渡邉 梓</div>
+      <div class="profile-name-en">Azusa Watanabe</div>
+      <div class="profile-tags">
+        <span class="profile-tag">感覚翻訳</span>
+        <span class="profile-tag">Vibe Wizard</span>
+        <span class="profile-tag">神奈川県</span>
+        <span class="profile-tag">INFP</span>
+      </div>
+      <p class="section-body">
+        Webデザイン・Instagram運用・イラスト・動画編集など、フリーランスとして5年のキャリアを持つ。「なんとなく」という感覚を受け取って形にすることを得意とし、クライアントから「まさにこれ！」と言われることが多い。感覚で生きることを大切に、自分らしい働き方を歩んでいる。
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section reveal">
+  <h2 class="cta-title">あなたの「なんとなく」を、<br>持ってきてください。</h2>
+  <p class="cta-sub">
+    うまく説明できなくても大丈夫。<br>
+    感覚のまま、受け取ります。
+  </p>
+  <a href="https://instagram.com" class="btn-primary">InstagramのDMまたはLINE公式から申し込む</a>
+</div>
+
+<footer>
+  © 2026 Azusa Watanabe · 感覚翻訳セッション<br>
+  <div style="margin-top:12px; display:flex; justify-content:center; gap:24px;">
+    <a href="privacy_policy.html" style="font-size:12px; color:#9A8878; text-decoration:none; border-bottom:1px solid #EDE3D6;">プライバシーポリシー</a>
+    <a href="terms_of_service.html" style="font-size:12px; color:#9A8878; text-decoration:none; border-bottom:1px solid #EDE3D6;">利用規約</a>
+    <a href="tokushoho.html" style="font-size:12px; color:#9A8878; text-decoration:none; border-bottom:1px solid #EDE3D6;">特定商取引法に基づく表記</a>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
