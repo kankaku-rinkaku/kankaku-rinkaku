@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>感覚と輪郭 | コミュニティ</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF8F4;
+    --bg2: #F4F0E8;
+    --beige-dark: #B8967A;
+    --beige-mid: #D4B896;
+    --beige-light: #EDE3D6;
+    --green: #7A9478;
+    --green-light: #A8BC9E;
+    --green-pale: #E8EFE6;
+    --text: #3A3128;
+    --text-mid: #6B5D52;
+    --text-light: #9A8878;
+    --serif: 'Shippori Mincho', serif;
+    --sans: 'Zen Kaku Gothic New', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px 60px;
+    text-align: center;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 15% 20%, rgba(168,188,158,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 85% 75%, rgba(184,150,122,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px; letter-spacing: 0.35em; color: var(--green);
+    text-transform: uppercase; margin-bottom: 24px;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(48px, 12vw, 96px);
+    font-weight: 500; line-height: 1.2;
+    color: var(--text); margin-bottom: 8px;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+    letter-spacing: 0.05em;
+  }
+  .hero-title-sub {
+    font-size: 12px; letter-spacing: 0.3em;
+    color: var(--text-light); margin-bottom: 48px;
+    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-catch {
+    font-family: var(--serif);
+    font-size: clamp(15px, 2.5vw, 19px);
+    line-height: 2.4; color: var(--text-mid);
+    max-width: 520px; margin-bottom: 56px;
+    opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .hero-cta {
+    opacity: 0; animation: fadeUp 0.8s 1s forwards;
+  }
+  .btn-primary {
+    display: inline-block; padding: 18px 48px;
+    background: var(--green); color: #fff;
+    font-family: var(--sans); font-size: 14px;
+    font-weight: 500; letter-spacing: 0.15em;
+    text-decoration: none; border-radius: 2px;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .btn-primary:hover { background: #6A8468; transform: translateY(-2px); }
+  .hero-scroll {
+    position: absolute; bottom: 32px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    opacity: 0; animation: fadeIn 1s 1.4s forwards;
+  }
+  .hero-scroll span { font-size: 10px; letter-spacing: 0.3em; color: var(--text-light); }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--beige-mid), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* ── COMMON ── */
+  .divider { width: 48px; height: 1px; background: var(--beige-mid); margin: 0 auto; }
+  .section { max-width: 720px; margin: 0 auto; padding: 96px 24px; }
+  .section-label {
+    font-size: 10px; letter-spacing: 0.35em; color: var(--green);
+    text-transform: uppercase; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--beige-light); }
+  .section-title {
+    font-family: var(--serif); font-size: clamp(22px, 4vw, 30px);
+    font-weight: 500; margin-bottom: 28px;
+    color: var(--text); line-height: 1.7;
+  }
+  .section-body { font-size: 15px; color: var(--text-mid); line-height: 2.2; }
+
+  /* ── STORY ── */
+  .story-text {
+    font-family: var(--serif);
+    font-size: clamp(15px, 2.5vw, 18px);
+    line-height: 2.6; color: var(--text-mid);
+    max-width: 640px; margin: 0 auto;
+  }
+  .story-text .em {
+    color: var(--text);
+    border-bottom: 1px solid var(--beige-mid);
+    padding-bottom: 1px;
+  }
+  .story-text .break {
+    display: block; margin: 32px 0;
+    width: 32px; height: 1px;
+    background: var(--beige-light);
+  }
+  .story-highlight {
+    margin: 48px 0;
+    padding: 36px 40px;
+    background: var(--green-pale);
+    border-left: 2px solid var(--green);
+    border-radius: 0 2px 2px 0;
+    font-family: var(--serif);
+    font-size: clamp(16px, 2.5vw, 20px);
+    line-height: 2.2; color: var(--text);
+  }
+
+  /* ── CONTENTS ── */
+  .contents-list { list-style: none; margin-top: 32px; display: flex; flex-direction: column; gap: 14px; }
+  .contents-list li {
+    display: flex; align-items: flex-start; gap: 20px;
+    padding: 22px 28px;
+    background: #fff; border: 1px solid var(--beige-light);
+    border-radius: 2px;
+  }
+  .contents-list li .c-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .contents-list li .c-body {}
+  .contents-list li .c-title {
+    font-family: var(--serif); font-size: 16px;
+    color: var(--text); margin-bottom: 4px;
+  }
+  .contents-list li .c-desc { font-size: 13px; color: var(--text-light); line-height: 1.8; }
+
+  /* ── FOR WHO ── */
+  .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
+  @media (max-width: 560px) { .who-grid { grid-template-columns: 1fr; } }
+  .who-box { padding: 28px 24px; border-radius: 2px; }
+  .who-box.yes { background: var(--green-pale); border: 1px solid var(--green-light); }
+  .who-box.no { background: #fff; border: 1px solid var(--beige-light); }
+  .who-box .w-title {
+    font-family: var(--serif); font-size: 15px;
+    margin-bottom: 16px; color: var(--text);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .who-box ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .who-box ul li {
+    font-size: 13px; color: var(--text-mid); line-height: 1.8;
+    padding-left: 14px; position: relative;
+  }
+  .who-box.yes ul li::before { content: '✦'; position: absolute; left: 0; color: var(--green); font-size: 10px; top: 4px; }
+  .who-box.no ul li::before { content: '–'; position: absolute; left: 0; color: var(--beige-dark); }
+
+  /* ── PRICE ── */
+  .price-box {
+    margin-top: 32px; border: 1px solid var(--beige-mid);
+    border-radius: 2px; overflow: hidden;
+  }
+  .price-header {
+    background: var(--text); color: var(--bg);
+    padding: 28px 32px; text-align: center;
+  }
+  .price-header .p-name { font-family: var(--serif); font-size: 22px; margin-bottom: 4px; }
+  .price-header .p-sub { font-size: 11px; letter-spacing: 0.2em; opacity: 0.5; }
+  .price-body { padding: 36px 32px; background: #fff; }
+  .price-amount { text-align: center; margin-bottom: 32px; padding-bottom: 28px; border-bottom: 1px solid var(--beige-light); }
+  .price-amount .amount { font-family: var(--serif); font-size: 48px; color: var(--text); }
+  .price-amount .tax { font-size: 13px; color: var(--text-light); }
+  .price-amount .card-price {
+    margin-top: 8px; font-size: 13px; color: var(--text-light);
+  }
+  .price-includes { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+  .price-includes li {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 14px; color: var(--text-mid);
+  }
+  .price-includes li::before {
+    content: ''; width: 18px; height: 18px; flex-shrink: 0;
+    background: var(--green); border-radius: 50%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-size: 11px; background-repeat: no-repeat; background-position: center;
+  }
+  .price-note { font-size: 12px; color: var(--text-light); line-height: 1.9; text-align: center; padding-top: 20px; border-top: 1px solid var(--beige-light); }
+
+  /* ── PROFILE ── */
+  .profile-wrap { display: flex; gap: 36px; align-items: flex-start; margin-top: 8px; }
+  .profile-initial {
+    width: 90px; height: 90px; background: var(--beige-light); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 28px; color: var(--beige-dark); flex-shrink: 0;
+  }
+  .profile-name { font-family: var(--serif); font-size: 20px; color: var(--text); margin-bottom: 4px; }
+  .profile-name-en { font-size: 11px; letter-spacing: 0.2em; color: var(--text-light); margin-bottom: 14px; }
+  .profile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .profile-tag { padding: 3px 10px; background: var(--green-pale); border-radius: 999px; font-size: 11px; color: var(--green); }
+  @media (max-width: 560px) {
+    .profile-wrap { flex-direction: column; align-items: center; text-align: center; }
+    .profile-tags { justify-content: center; }
+  }
+
+  /* ── CTA ── */
+  .cta-section { background: var(--bg2); padding: 96px 24px; text-align: center; }
+  .cta-deadline {
+    display: inline-block; padding: 8px 24px;
+    border: 1px solid var(--beige-mid); border-radius: 999px;
+    font-size: 13px; color: var(--beige-dark); margin-bottom: 32px;
+    letter-spacing: 0.05em;
+  }
+  .cta-title {
+    font-family: var(--serif); font-size: clamp(20px, 4vw, 28px);
+    color: var(--text); line-height: 1.9; margin-bottom: 16px;
+  }
+  .cta-sub { font-size: 14px; color: var(--text-light); margin-bottom: 40px; line-height: 2; }
+
+  footer {
+    padding: 40px 24px; text-align: center;
+    border-top: 1px solid var(--beige-light);
+    font-size: 12px; color: var(--text-light); letter-spacing: 0.1em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Community · Kankaku to Rinkaku</div>
+  <h1 class="hero-title">感覚と輪郭</h1>
+  <div class="hero-title-sub">言葉にならない感覚を、形にするコミュニティ</div>
+  <p class="hero-catch">
+    みんなが発信者の時代。<br>
+    発信とは、自分の思っていることを外に出すこと。<br>
+    だから——SNSをやっていてもいなくても、<br>
+    みんな発信者だと、わたしは思う。
+  </p>
+  <div class="hero-cta">
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- STORY -->
+<div class="section reveal">
+  <div class="section-label">Story · このコミュニティができるまで</div>
+  <div class="story-text">
+
+    発信をすることは、自分を奥深く知っていくこと。<br><br>
+
+    自分を深めていくためのコミュニティをつくりました。<br>
+    といってもまだ、<span class="em">メンバーはわたしだけ。</span>
+
+    <span class="break"></span>
+
+    今まで感じていたのに仕舞い込んでいた感覚を呼び起こして、
+    それを自分の中から発信していくことは——<br><br>
+
+    自分への癒しにもなり、<br>
+    自分自身の成長のログにもなります。<br><br>
+
+    でもね、ひとりでは気付けないことがたくさんあって、
+    いつしか限界を感じていくのです。<br>
+    勇気を出した先で、孤独を感じることも。
+
+    <span class="break"></span>
+
+    だから、そこにいるだけで自然と勇気が湧いてくるような、
+    あたたかい場を作りたかったんです。
+
+  </div>
+
+  <div class="story-highlight">
+    同じ目標に向かうわけでもないけど、<br>
+    自分自身の選択にどんどん自信が持てるような。<br>
+    安心がここにあるから前に進めるような。<br><br>
+    言葉にならない感覚を持ち寄って、<br>
+    受け取り合いながら、発信を育てていく。<br>
+    そんなコミュニティの仲間を募集します。
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CONTENTS -->
+<div class="section reveal">
+  <div class="section-label">Contents · コミュニティの中身</div>
+  <h2 class="section-title">コミュニティの内容</h2>
+  <ul class="contents-list">
+    <li>
+      <div class="c-icon">🌱</div>
+      <div class="c-body">
+        <div class="c-title">発信を紐解くセッション（90分）</div>
+        <div class="c-desc">らしさの言語化・発信の方向性・世界観の整理——あなたが今一番必要なところから始めます。</div>
+      </div>
+    </li>
+    <li>
+      <div class="c-icon">🍵</div>
+      <div class="c-body">
+        <div class="c-title">月1回Zoomお茶会</div>
+        <div class="c-desc">みんなでゆるく話す時間。評価じゃなくて、受け取り合う場所。</div>
+      </div>
+    </li>
+    <li>
+      <div class="c-icon">💬</div>
+      <div class="c-body">
+        <div class="c-title">グループチャット（LINEグループまたはDiscord）</div>
+        <div class="c-desc">日々のやり取りができる場所。メンバーの雰囲気を見ながら変動していきます。一人で抱えなくていい。</div>
+      </div>
+    </li>
+    <li>
+      <div class="c-icon">✨</div>
+      <div class="c-body">
+        <div class="c-title">不定期オフラインイベント</div>
+        <div class="c-desc">リアルで会える機会も作っていきます。</div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="divider"></div>
+
+<!-- FOR WHO -->
+<div class="section reveal">
+  <div class="section-label">For · こんな方へ</div>
+  <div class="who-grid">
+    <div class="who-box yes">
+      <div class="w-title">🌿 こんな方と繋がりたいです</div>
+      <ul>
+        <li>正解よりも、自分らしさを大切にしたい方</li>
+        <li>ゆっくりでも、自分のペースで進んでいきたい方</li>
+        <li>感覚や直感を信じて生きたい方</li>
+        <li>発信を通して、自分自身を深めていきたい方</li>
+        <li>誰かと一緒に育てていくことに価値を感じる方</li>
+      </ul>
+    </div>
+    <div class="who-box no">
+      <div class="w-title">– 向いていないかもしれない方</div>
+      <ul>
+        <li>正解やエビデンスを求めている方</li>
+        <li>答えをすぐに出したい方</li>
+        <li>今の自分のままでいたい方</li>
+        <li>競い合うことでモチベーションが上がる方</li>
+        <li>理論や数字で発信を組み立てたい方</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PRICE -->
+<div class="section reveal" id="apply">
+  <div class="section-label">Price · 料金</div>
+  <div class="price-box">
+    <div class="price-header">
+      <div class="p-name">感覚と輪郭</div>
+      <div class="p-sub">community · complete package</div>
+    </div>
+    <div class="price-body">
+      <div class="price-amount">
+        <div class="amount">¥60,000<span class="tax">（税込）</span></div>
+        <div class="card-price">カード払いの場合 ¥62,200（税込）</div>
+      </div>
+      <ul class="price-includes">
+        <li>発信を紐解くセッション（90分）</li>
+        <li>コミュニティ永久入会権</li>
+        <li>月1回Zoomお茶会</li>
+        <li>不定期オフラインイベント参加権</li>
+        <li>テキストチャット</li>
+      </ul>
+      <div class="price-note">
+        買い切り・永久入会です。<br>
+        わたしが続けたいと思う限り、ずっと一緒にいます。
+      </div>
+      <div style="text-align:center; margin-top:28px;">
+        <a href="https://instagram.com" class="btn-primary">コミュニティに参加する</a>
+        <p style="margin-top:12px; font-size:12px; color:#9A8878;">※InstagramのDMにご連絡ください</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PROFILE -->
+<div class="section reveal">
+  <div class="section-label">Profile · わたしについて</div>
+  <div class="profile-wrap">
+    <div class="profile-initial">🫧</div>
+    <div>
+      <div class="profile-name">わたなべ あずさ</div>
+      <div class="profile-name-en">Azusa Watanabe</div>
+      <div class="profile-tags">
+        <span class="profile-tag">感覚翻訳</span>
+        <span class="profile-tag">1989</span>
+        <span class="profile-tag">神奈川</span>
+        <span class="profile-tag">人間触媒</span>
+      </div>
+      <p class="section-body">
+        見えないものを、見える形に。<br>
+        言葉にならない感覚を、そっと受け取る人。<br><br>
+        Webデザイン・イラスト・ライティング・動画編集・Instagram運用。
+        フリーランスとして5年、感覚を頼りに生きてきた。
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section reveal">
+  <div class="cta-deadline">📅 申し込み締め切り：6月29日（月）</div>
+  <h2 class="cta-title">あなたの感覚を、<br>持ってきてください。</h2>
+  <p class="cta-sub">
+    うまく説明できなくても大丈夫。<br>
+    感覚のまま、受け取ります。
+  </p>
+  <a href="https://instagram.com" class="btn-primary">InstagramのDMで申し込む『感覚と輪郭』と送信</a>
+</div>
+
+<footer>
+  © 2026 わたなべ あずさ · 感覚と輪郭
+  <div style="margin-top:12px; display:flex; justify-content:center; gap:24px;">
+    <a href="privacy_policy.html" style="font-size:12px; color:#9A8878; text-decoration:none; border-bottom:1px solid #EDE3D6;">プライバシーポリシー</a>
+    <a href="terms_of_service.html" style="font-size:12px; color:#9A8878; text-decoration:none; border-bottom:1px solid #EDE3D6;">利用規約</a>
+    <a href="tokushoho.html" style="font-size:12px; color:#9A8878; text-decoration:none; border-bottom:1px solid #EDE3D6;">特定商取引法に基づく表記</a>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
